@@ -30,26 +30,10 @@ $(document).ready(function () {
 
 
     });
-    renderCadastroForm();
+
 
 
     // Carrega o conteúdo do primeiro item do menu ao carregar a página
 
-    $('#cadastroForm').submit(function(event) {
-        event.preventDefault();
-
-        var email = $('#email').val();
-        var password = $('#password').val();
-        var confirmPassword = $('#confirmPassword').val();
-
-        if (email === '' || password === '' || confirmPassword === '') {
-            alert('Todos os campos devem ser preenchidos.');
-        } else if (password !== confirmPassword) {
-            alert('A senha e a confirmação de senha devem ser iguais.');
-        } else {
-            alert('Formulário enviado com sucesso!');
-            // Aqui você pode adicionar a lógica para enviar o formulário ou realizar outras ações.
-        }
-    });
 
 });

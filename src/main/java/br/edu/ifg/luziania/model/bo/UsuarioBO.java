@@ -18,6 +18,7 @@ public class UsuarioBO {
 
         // Criar uma instância da entidade Usuario
         Usuario entity = new Usuario();
+        System.out.println(dadoDTO.getEmail());
         entity.setEmail(dadoDTO.getEmail());
         entity.setNomeUsuario(dadoDTO.getNome());
         entity.setSenha(dadoDTO.getSenha());
@@ -28,6 +29,7 @@ public class UsuarioBO {
             usuarioDAO.insert(entity);
 
             // Configurar a resposta de sucesso
+            respostaDTO.setStatus(200);
             respostaDTO.setMensagem("Usuário salvo com sucesso!");
             respostaDTO.setUrl("/");
         } catch (Exception e) {

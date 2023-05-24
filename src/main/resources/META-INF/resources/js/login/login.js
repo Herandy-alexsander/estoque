@@ -1,5 +1,6 @@
 $(document).ready(function () {
     renderCadastroForm();
+
     $("#loginForm").submit(function (event) {
         event.preventDefault();
 
@@ -14,7 +15,10 @@ $(document).ready(function () {
         $.ajax({
             url: '/login',
             type: 'POST',
-            contentType: 'application/json',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
             data: JSON.stringify(loginData),
             success: function (response) {
                 alert('Login realizado com sucesso!');
@@ -24,7 +28,8 @@ $(document).ready(function () {
             }
         });
     });
-    $('#cadastroForm').submit(function(e) {
+
+    $('#cadastroForm').submit(function (e) {
         e.preventDefault();
 
         // Limpar mensagens de erro e estilos de campo inválido
@@ -32,50 +37,64 @@ $(document).ready(function () {
         $('.help-block').remove();
 
         // Obter os valores dos campos
-        var nome = $('#nome').val();
-        var email = $('#email').val();
-        var senha = $('#senha').val();
-        var confirmarSenha = $('#Comfirmasenha').val();
+        var confirmarSenha = $('#confirmarSenha').val();
+        var dados = {
+            nome: $('#nome').val(),
+            email: $('#email').val(),
+            senha: $('#senha').val(),
+            tipoUsuario: "ADMIN"
+        };
 
         // Validar campos
         var isValid = true;
 
-        if (nome.trim() === '') {
+        if (dados.nome.trim() === '') {
             isValid = false;
-            $('#nome').closest('.form-group').addClass('has-error');
-            $('#nome').after('<span class="help-block">Campo obrigatório</span>');
+            showValidationError('#nome', 'Campo obrigatório');
         }
 
-        if (email.trim() === '') {
+        if (dados.email.trim() === '') {
             isValid = false;
-            $('#email').closest('.form-group').addClass('has-error');
-            $('#email').after('<span class="help-block">Campo obrigatório</span>');
-        } else if (!validateEmail(email)) {
+            showValidationError('#email', 'Campo obrigatório');
+        } else if (!validateEmail(dados.email)) {
             isValid = false;
-            $('#email').closest('.form-group').addClass('has-error');
-            $('#email').after('<span class="help-block">E-mail inválido</span>');
+            showValidationError('#email', 'E-mail inválido');
         }
 
-        if (senha.trim() === '') {
+        if (dados.senha.trim() === '') {
             isValid = false;
-            $('#senha').closest('.form-group').addClass('has-error');
-            $('#senha').after('<span class="help-block">Campo obrigatório</span>');
+            showValidationError('#senha', 'Campo obrigatório');
         }
 
         if (confirmarSenha.trim() === '') {
             isValid = false;
-            $('#Comfirmasenha').closest('.form-group').addClass('has-error');
-            $('#Comfirmasenha').after('<span class="help-block">Campo obrigatório</span>');
-        } else if (confirmarSenha !== senha) {
+            showValidationError('#confirmarSenha', 'Campo obrigatório');
+        } else if (confirmarSenha !== dados.senha) {
             isValid = false;
-            $('#Comfirmasenha').closest('.form-group').addClass('has-error');
-            $('#Comfirmasenha').after('<span class="help-block">As senhas não coincidem</span>');
+            showValidationError('#confirmarSenha', 'As senhas não coincidem');
         }
 
         // Submeter o formulário se todos os campos forem válidos
         if (isValid) {
-            // Faça o que for necessário com os dados do formulário
-            alert('Cadastro enviado!');
+            $.ajax({
+                url: "/salvar",
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(dados),
+                success: function (response) {
+                    // Callback para tratar a resposta de sucesso
+                    console.log("Solicitação enviada com sucesso!");
+                    console.log(response);
+                    alert(response);
+                },
+                error: function (xhr, status, error) {
+                    // Callback para tratar a resposta de erro
+                    console.log("Ocorreu um erro ao enviar a solicitação.");
+                    console.log(error);
+                    alert(error);
+                }
+            });
         }
     });
 
@@ -85,6 +104,11 @@ $(document).ready(function () {
         return re.test(email);
     }
 
+    // Função auxiliar para exibir mensagem de erro de validação
+    function showValidationError(fieldSelector, errorMessage) {
+        $(fieldSelector)
+            .closest('.form-group')
+            .addClass('has-error')
+            .after('<span class="help-block">' + errorMessage + '</span>');
+    }
 });
-
-
