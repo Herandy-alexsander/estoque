@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    renderCadastroForm();
+    renderLoginForm();
 
     $("#loginForm").submit(function (event) {
         event.preventDefault();

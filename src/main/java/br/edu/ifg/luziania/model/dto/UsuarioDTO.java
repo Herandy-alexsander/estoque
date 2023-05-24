@@ -1,21 +1,13 @@
 package br.edu.ifg.luziania.model.dto;
 
-
 import br.edu.ifg.luziania.model.util.TipoUsuario;
 
 public class UsuarioDTO {
     private String nome;
     private String email;
     private String senha;
+
     private TipoUsuario tipoUsuario;
-
-    public TipoUsuario getTipoUsuario() {
-        return tipoUsuario;
-    }
-
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
-    }
 
     public String getNome() {
         return nome;
@@ -39,5 +31,13 @@ public class UsuarioDTO {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 }

@@ -25,7 +25,9 @@ function renderCadastroForm() {
     form.append(emailFormGroup);
     form.append(senhaFormGroup);
     form.append(confirmarSenhaFormGroup);
-    form.append('<button type="submit" class="btn btn-primary">Cadastrar</button>');
+    var button= $('<div class="form-group"></div>');
+    button.append('</br><button type="submit" class="btn btn-primary">Cadastrar</button>');
+    form.append(button);
 
     col.append(title);
     col.append(form);
@@ -41,7 +43,7 @@ function renderLoginForm() {
     var form = $('<form id="loginForm" class="mt-4"></form>');
 
     var usernameFormGroup = $('<div class="form-group"></div>');
-    usernameFormGroup.append('<label for="username">Usuário:</label>');
+    usernameFormGroup.append('<label for="username">Email:</label>');
     usernameFormGroup.append('<input type="text" class="form-control" id="username" placeholder="Digite seu usuário">');
 
     var passwordFormGroup = $('<div class="form-group"></div>');
