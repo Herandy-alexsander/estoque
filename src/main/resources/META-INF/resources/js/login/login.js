@@ -13,7 +13,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '/login',
+            url: '/login/autenticar',
             type: 'POST',
             headers: {
                 "Accept": "application/json",
@@ -22,9 +22,11 @@ $(document).ready(function () {
             data: JSON.stringify(loginData),
             success: function (response) {
                 alert('Login realizado com sucesso!');
+                console.log(response)
             },
             error: function (error) {
                 alert('Ocorreu um erro ao realizar o login.');
+                console.log(error)
             }
         });
     });

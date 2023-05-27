@@ -49,7 +49,7 @@ public class Usuario {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public TipoUsuario getTipoUsuario(TipoUsuario admin) {
+    public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
 

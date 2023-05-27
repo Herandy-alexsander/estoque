@@ -1,6 +1,7 @@
 package br.edu.ifg.luziania.controller;
 
 import br.edu.ifg.luziania.model.bo.UsuarioBO;
+import br.edu.ifg.luziania.model.dto.AutenticacaoDTO;
 import br.edu.ifg.luziania.model.dto.RespostaDTO;
 import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import io.quarkus.qute.Template;
@@ -10,7 +11,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/")
+@Path("/login")
 public class LoginController {
 
     @Inject
@@ -19,11 +20,13 @@ public class LoginController {
     @Inject
     UsuarioBO usuarioBO;
 
-    @GET
-    public TemplateInstance showLoginPage() {
-        return login.instance().data("title", "Login");
+    @POST
+    @Path("/autenticar")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response autenticar(AutenticacaoDTO autenticacaoDTO){
+        return usuarioBO.autenticar(autenticacaoDTO);
     }
-
     /**
      * Endpoint para cadastrar um usuário.
      *

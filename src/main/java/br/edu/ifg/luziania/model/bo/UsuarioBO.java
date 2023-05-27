@@ -6,6 +6,8 @@ import br.edu.ifg.luziania.model.dto.RespostaDTO;
 import br.edu.ifg.luziania.model.dto.RetornoDTO;
 import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import br.edu.ifg.luziania.model.entity.Usuario;
+
+import br.edu.ifg.luziania.model.util.Sessao;
 import br.edu.ifg.luziania.model.util.TipoUsuario;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -17,20 +19,31 @@ import static java.util.Objects.nonNull;
 
 @Dependent
 public class UsuarioBO {
+
     @Inject
     UsuarioDAO usuarioDAO;
+    @Inject
+    Sessao sessao;
 
     public Response autenticar(AutenticacaoDTO autenticacaoDTO) {
         RetornoDTO retornoDTO = new RetornoDTO();
         if (nonNull(autenticacaoDTO)) {
-            Usuario usuario = usuarioDAO.findByEmailAndSenha(autenticacaoDTO.getEmail(),autenticacaoDTO.getSenha());
-            if (nonNull(usuario)){
+            Usuario usuario = usuarioDAO.findByEmailAndSenha(autenticacaoDTO.getEmail(), autenticacaoDTO.getSenha());
+            if (nonNull(usuario)) {
+                retornoDTO.setMensagem("Bem vindo " + usuario.getNomeUsuario() + "!");
+                sessao.setUsuario(usuario.getNomeUsuario());
+               sessao.setId(usuario.getId());
+             sessao.setTipoUsuario(usuario.getTipoUsuario());
 
+                return Response.ok(retornoDTO).build();
+            } else {
+                retornoDTO.setMensagem("Usuário não encontrado!");
+                return Response.status(Response.Status.NOT_FOUND).entity(retornoDTO).build();
             }
         } else
             return Response.status(Response.Status.BAD_REQUEST).entity("Dados obrigatórios não presentes!").build();
 
-        return null;
+
     }
 
     @Transactional
