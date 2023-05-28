@@ -5,7 +5,7 @@ import br.edu.ifg.luziania.model.dto.AutenticacaoDTO;
 import br.edu.ifg.luziania.model.dto.RespostaDTO;
 import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -38,12 +38,18 @@ public class LoginController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/salvar")
     public Response cadastra(UsuarioDTO dto) {
-        RespostaDTO respostaDTO = usuarioBO.cadastrarUsuario(dto);
+        return usuarioBO.cadastrarUsuario(dto);
 
-        return Response
-                .status(respostaDTO.getStatus())
-                .entity(respostaDTO)
-                .build();
+
+    }
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/sair")
+    public Response logout() {
+        return usuarioBO.logout();
+
+        
     }
 
     }

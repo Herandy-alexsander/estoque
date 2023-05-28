@@ -8,22 +8,27 @@ import java.io.Serializable;
 @SessionScoped
 public class Sessao implements Serializable {
 
-    private String usuario;
+    private String nomeUsuario;
     private Integer id;
-
     private TipoUsuario tipoUsuario;
 
 
-    public String getUsuario() {
-        return usuario;
+    // Getters e setters para os atributos...
+
+    public boolean isSessaoInstanciada() {
+        return nomeUsuario != null || id != null || tipoUsuario != null;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public Integer getId(Integer id) {
-        return this.id;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setId(Integer id) {
@@ -37,8 +42,5 @@ public class Sessao implements Serializable {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
-
-    public boolean isSessaoAtiva() {
-        return usuario != null && !usuario.isEmpty();
-    }
 }
+

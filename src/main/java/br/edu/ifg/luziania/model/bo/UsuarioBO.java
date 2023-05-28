@@ -14,8 +14,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 
-import static java.util.Objects.nonNull;
-
 
 @Dependent
 public class UsuarioBO {
@@ -26,54 +24,45 @@ public class UsuarioBO {
     Sessao sessao;
 
     public Response autenticar(AutenticacaoDTO autenticacaoDTO) {
-        RetornoDTO retornoDTO = new RetornoDTO();
-        if (nonNull(autenticacaoDTO)) {
-            Usuario usuario = usuarioDAO.findByEmailAndSenha(autenticacaoDTO.getEmail(), autenticacaoDTO.getSenha());
-            if (nonNull(usuario)) {
-                retornoDTO.setMensagem("Bem vindo " + usuario.getNomeUsuario() + "!");
-                sessao.setUsuario(usuario.getNomeUsuario());
-               sessao.setId(usuario.getId());
-             sessao.setTipoUsuario(usuario.getTipoUsuario());
-
-                return Response.ok(retornoDTO).build();
-            } else {
-                retornoDTO.setMensagem("Usuário não encontrado!");
-                return Response.status(Response.Status.NOT_FOUND).entity(retornoDTO).build();
-            }
-        } else
+        if (autenticacaoDTO == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Dados obrigatórios não presentes!").build();
+        }
 
+        Usuario usuario = usuarioDAO.findByEmailAndSenha(autenticacaoDTO.getEmail(), autenticacaoDTO.getSenha());
+        if (usuario != null) {
+            sessao.setNomeUsuario(usuario.getNomeUsuario());
+            sessao.setId(usuario.getId());
+            sessao.setTipoUsuario(usuario.getTipoUsuario());
+            return Response.ok(new RetornoDTO("Bem vindo " + usuario.getNomeUsuario() + "!")).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity(new RetornoDTO("Usuário não encontrado!")).build();
+        }
+    }
 
+    public Response logout() {
+        sessao.setNomeUsuario(null);
+        sessao.setId(null);
+        sessao.setTipoUsuario(null);
+        return Response.ok(new RespostaDTO(200, "Usuário saiu", "/")).build();
     }
 
     @Transactional
-    public RespostaDTO cadastrarUsuario(UsuarioDTO dadoDTO) {
-        RespostaDTO respostaDTO = new RespostaDTO();
-
-        // Criar uma instância da entidade Usuario
-        Usuario entity = new Usuario();
-        System.out.println(dadoDTO.getEmail());
-        entity.setEmail(dadoDTO.getEmail());
-        entity.setNomeUsuario(dadoDTO.getNome());
-        entity.setSenha(dadoDTO.getSenha());
-        entity.setTipoUsuario(TipoUsuario.ADMIN); // Definir o tipo de usuário, por exemplo, ADMIN
+    public Response cadastrarUsuario(UsuarioDTO usuarioDTO) {
+        Usuario usuario = new Usuario();
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setNomeUsuario(usuarioDTO.getNome());
+        usuario.setSenha(usuarioDTO.getSenha());
+        usuario.setTipoUsuario(TipoUsuario.ADMIN); // Definir o tipo de usuário, por exemplo, ADMIN
 
         try {
-            // Inserir a entidade no banco de dados usando o DAO
-            usuarioDAO.insert(entity);
-
-            // Configurar a resposta de sucesso
-            respostaDTO.setStatus(200);
-            respostaDTO.setMensagem("Usuário salvo com sucesso!");
-            respostaDTO.setUrl("/");
+            usuarioDAO.insert(usuario);
+            return Response.ok(new RespostaDTO(200, "Usuário salvo com sucesso!", "/")).build();
         } catch (Exception e) {
-            // Configurar a resposta de erro
-            respostaDTO.setStatus(500);
-            respostaDTO.setMensagem("Falha ao salvar usuário!");
-            respostaDTO.setUrl("/");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new RespostaDTO(500, "Falha ao salvar usuário!", "/"))
+                    .build();
         }
-
-        return respostaDTO;
     }
-
 }
+
+

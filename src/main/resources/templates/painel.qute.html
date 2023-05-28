@@ -13,7 +13,9 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="css/sidebars.css" rel="stylesheet">
+    <link href="css/Style.home.css" rel="stylesheet">
+    <link href="css/Style.Global.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -68,19 +70,93 @@
             <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>mdo</strong>
+                <strong>{sessao.nomeUsuario}</strong>
             </a>
             <ul class="dropdown-menu text-small shadow">
                 <li><a class="dropdown-item" href="#">Perfil</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Sair</a></li>
+                <li><a class="dropdown-item" href="#" id="logout">Sair</a></li>
             </ul>
         </div>
     </div>
     <div class="b-example-divider b-example-vr"></div>
+    <div id="body">
+        <div id="Reder_panel">
 
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Funcionários</h5>
+                        <p class="card-text">Gerencie os funcionários da empresa</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Produtos</h5>
+                        <p class="card-text">Veja a lista de produtos disponíveis</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Estoque</h5>
+                        <p class="card-text">Controle o estoque da empresa</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cadastro de Funcionários</h5>
+                        <p class="card-text">Registre novos funcionários na empresa</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cadastro de Produtos</h5>
+                        <p class="card-text">Adicione novos produtos ao estoque</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Atualizar Funcionários</h5>
+                        <p class="card-text">Atualize os dados dos funcionários</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Auditoria</h5>
+                        <p class="card-text">
+                            Acompanhe as atividades e registros da empresa
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Administração</h5>
+                        <p class="card-text">Gerencie as configurações e permissões</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </main>
 
@@ -89,16 +165,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-
-{#switch title}
-    {#case 'test'}
+{sessao.tipoUsuario}
+{#switch sessao.tipoUsuario}
+    {#case  ADMIN }
     <script src="js/painelRenderUsuaios/renderADM.js"></script>
-    {#case 'Mary'}
+{#case USUARIO }
     <script src="js/painelRenderUsuaios/rederFunncinario.js"></script>
 {/switch}
 <script src="js/servicer/sidebars.js"></script>
 <script>
     rederisar();
+
+
 </script>
 </body>
 

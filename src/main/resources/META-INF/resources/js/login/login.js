@@ -23,6 +23,7 @@ $(document).ready(function () {
             success: function (response) {
                 alert('Login realizado com sucesso!');
                 console.log(response)
+               window.location.href = "/";
             },
             error: function (error) {
                 alert('Ocorreu um erro ao realizar o login.');
@@ -99,6 +100,7 @@ $(document).ready(function () {
             });
         }
     });
+
 
     // Função para validar o formato do e-mail usando regex
     function validateEmail(email) {

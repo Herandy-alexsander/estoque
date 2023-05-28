@@ -6,6 +6,15 @@ public class RespostaDTO {
     private String mensagem;
     private String url;
 
+    public RespostaDTO(){
+
+    }
+    public RespostaDTO(Integer status, String mensagem, String url) {
+        this.status = status;
+        this.mensagem = mensagem;
+        this.url = url;
+    }
+
     public Integer getStatus() {
         return status;
     }
