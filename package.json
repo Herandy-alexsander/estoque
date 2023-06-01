@@ -1,0 +1,31 @@
+{
+  "name": "br.edu.ifg.luziania",
+  "version": "1.0.0-SNAPSHOT",
+  "description": "",
+  "author": "",
+  "dependencies": {
+    "io.quarkus": "quarkus-hibernate-orm",
+    "io.quarkus": "quarkus-jsonb",
+    "io.quarkus": "quarkus-hibernate-validator",
+    "io.quarkus": "quarkus-qute",
+    "io.quarkus": "quarkus-undertow",
+    "io.quarkus": "quarkus-resteasy-jsonb",
+    "io.quarkiverse.jdbc": "quarkus-jdbc-sqlite@3.0.4",
+    "io.quarkus": "quarkus-resteasy-qute",
+    "io.quarkus": "quarkus-arc",
+    "io.quarkus": "quarkus-resteasy",
+    "io.quarkus": "quarkus-junit5",
+    "io.rest-assured": "rest-assured"
+  },
+  "devDependencies": {
+    "io.quarkus": "quarkus-bom@3.0.3.Final",
+    "io.quarkus.platform": "3.0.3.Final",
+    "org.apache.maven.plugins": "maven-compiler-plugin@3.11.0",
+    "org.apache.maven.plugins": "maven-surefire-plugin@3.0.0"
+  },
+  "scripts": {
+    "build": "mvn package",
+    "start": "quarkus:dev"
+  },
+  "private": true
+}
